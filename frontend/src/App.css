@@ -1,0 +1,209 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main App */
+.app {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+/* Form Container */
+.form-container {
+  background: white;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inputs */
+input {
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  background: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #005ed1;
+}
+
+/* Search Section */
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  width: 250px;
+}
+
+/* Sort Buttons */
+.sort-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+/* Active Sort Button */
+.active-sort {
+  background: #111;
+  color: white;
+}
+
+/* Posts Grid */
+.posts-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  );
+  gap: 20px;
+}
+
+/* Post Card */
+.post-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Post Image */
+.post-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* Caption */
+.post-card h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+/* Hashtags */
+.post-card p {
+  color: #666;
+}
+
+/* Likes */
+.likes {
+  font-weight: bold;
+  color: crimson;
+  margin-top: 10px;
+}
+
+/* Date Labels */
+.date-text {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Time Text */
+.time-text {
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Edit Inputs */
+.post-card input {
+  width: 90%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+  .app {
+    width: 95%;
+  }
+
+  .search-box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sort-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+/* Logout Button */
+.logout-btn {
+  background: crimson;
+}
+
+.logout-btn:hover {
+  background: darkred;
+}
