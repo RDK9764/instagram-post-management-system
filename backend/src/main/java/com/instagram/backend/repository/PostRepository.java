@@ -16,4 +16,9 @@ public interface PostRepository
     );
 
     List<Post> findByUser(User user);
+    List<Post>
+findByScheduledTrueAndPublishedFalse();
+
+List<Post>
+findByPublishedTrue();
 }

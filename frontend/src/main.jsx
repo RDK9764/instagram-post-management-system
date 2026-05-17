@@ -49,7 +49,10 @@ ReactDOM.createRoot(
             </ProtectedRoute>
           }
         />
-
+        <Route
+  path="/register"
+  element={<Register />}
+/>
       </Routes>
 
     </BrowserRouter>

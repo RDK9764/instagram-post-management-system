@@ -6,40 +6,29 @@ import com.instagram.backend.dto.PostResponseDTO;
 import com.instagram.backend.entity.Post;
 import com.instagram.backend.entity.User;
 
-import com.instagram.backend.exception
-        .PostNotFoundException;
+import com.instagram.backend.exception.PostNotFoundException;
 
-import com.instagram.backend.repository
-        .PostRepository;
-
-import com.instagram.backend.repository
-        .UserRepository;
+import com.instagram.backend.repository.PostRepository;
+import com.instagram.backend.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.domain.Sort;
-
 import org.springframework.security.core.Authentication;
-
-import org.springframework.security.core.context
-        .SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 @Service
 public class PostService {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(
-                    PostService.class
-            );
+            LoggerFactory.getLogger(PostService.class);
 
     @Autowired
     private PostRepository postRepository;
@@ -55,8 +44,7 @@ public class PostService {
                         .getContext()
                         .getAuthentication();
 
-        String email =
-                auth.getName();
+        String email = auth.getName();
 
         return userRepository
                 .findByEmail(email)
@@ -67,6 +55,8 @@ public class PostService {
     public PostResponseDTO savePost(
             PostRequestDTO postDTO
     ) {
+
+        logger.info("Saving post");
 
         User currentUser =
                 getCurrentUser();
@@ -91,8 +81,30 @@ public class PostService {
 
         post.setUser(currentUser);
 
+        // Scheduled Post Logic
+        post.setScheduled(
+                postDTO.isScheduled()
+        );
+
+        post.setScheduledTime(
+                postDTO.getScheduledTime()
+        );
+
+        if(postDTO.isScheduled()) {
+
+            post.setPublished(false);
+
+        } else {
+
+            post.setPublished(true);
+        }
+
         Post savedPost =
                 postRepository.save(post);
+
+        logger.info(
+                "Post saved successfully"
+        );
 
         PostResponseDTO responseDTO =
                 new PostResponseDTO();
@@ -120,17 +132,29 @@ public class PostService {
         return responseDTO;
     }
 
-    // Get Current User Posts
+    // Get All Published Posts
     public List<Post> getAllPosts() {
 
-        User currentUser =
-                getCurrentUser();
+    logger.info(
+            "Fetching published posts"
+    );
 
-        return postRepository
-                .findByUser(currentUser);
-    }
+    User currentUser =
+            getCurrentUser();
 
-    // Search Posts
+    return postRepository
+            .findByUser(currentUser)
+            .stream()
+            .filter(post ->
+
+                    Boolean.TRUE.equals(
+                            post.isPublished()
+                    )
+            )
+            .toList();
+}
+
+    // Search Posts By Hashtag
     public List<Post> getPostsByHashtag(
             String tag
     ) {
@@ -142,6 +166,10 @@ public class PostService {
                 .findByUser(currentUser)
                 .stream()
                 .filter(post ->
+
+                        post.isPublished()
+                        &&
+
                         post.getHashtags()
                                 .contains(tag)
                 )
@@ -174,6 +202,10 @@ public class PostService {
         }
 
         postRepository.delete(post);
+
+        logger.info(
+                "Post deleted successfully"
+        );
     }
 
     // Update Post
@@ -220,8 +252,14 @@ public class PostService {
                 LocalDateTime.now()
         );
 
-        return postRepository
-                .save(existingPost);
+        Post updated =
+                postRepository.save(existingPost);
+
+        logger.info(
+                "Post updated successfully"
+        );
+
+        return updated;
     }
 
     // Like Post
@@ -253,6 +291,7 @@ public class PostService {
         return postRepository
                 .findByUser(currentUser)
                 .stream()
+                .filter(Post::isPublished)
                 .sorted((a, b) ->
 
                         b.getTimestamp()
@@ -273,6 +312,7 @@ public class PostService {
         return postRepository
                 .findByUser(currentUser)
                 .stream()
+                .filter(Post::isPublished)
                 .sorted((a, b) ->
 
                         a.getTimestamp()

@@ -4,8 +4,10 @@ import {
   loginUser,
 } from "../services/authService";
 
-import { useNavigate } from
-  "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 function Login() {
 
@@ -35,19 +37,12 @@ function Login() {
 
     try {
 
-      const response =
-        await loginUser(loginData);
-       
-        console.log(response.data);
-        
-      // Save JWT Token
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
+      // Login Request
+      await loginUser(loginData);
 
       alert("Login Successful");
 
+      // Redirect Home
       navigate("/");
 
     } catch (error) {
@@ -70,14 +65,18 @@ function Login() {
           type="email"
           name="email"
           placeholder="Email"
+          value={loginData.email}
           onChange={handleChange}
+          required
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
+          value={loginData.password}
           onChange={handleChange}
+          required
         />
 
         <button type="submit">
@@ -85,6 +84,16 @@ function Login() {
         </button>
 
       </form>
+
+      <p>
+
+        Don't have an account?
+
+        <Link to="/register">
+          Register
+        </Link>
+
+      </p>
 
     </div>
   );

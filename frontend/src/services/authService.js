@@ -8,7 +8,9 @@ export const registerUser =
   async (userData) => {
 
     return axios.post(
+
       `${API_URL}/register`,
+
       userData
     );
   };
@@ -17,8 +19,37 @@ export const registerUser =
 export const loginUser =
   async (loginData) => {
 
-    return axios.post(
-      `${API_URL}/login`,
-      loginData
+    const response =
+      await axios.post(
+
+        `${API_URL}/login`,
+
+        loginData
+      );
+
+    // Store JWT Token
+    localStorage.setItem(
+
+      "token",
+
+      response.data.token
     );
+
+    return response.data;
   };
+
+// Logout User
+export const logoutUser = () => {
+
+  localStorage.removeItem(
+    "token"
+  );
+};
+
+// Get Token
+export const getToken = () => {
+
+  return localStorage.getItem(
+    "token"
+  );
+};

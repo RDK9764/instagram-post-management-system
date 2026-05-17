@@ -40,7 +40,7 @@ function App() {
 
       const response =
         await getAllPosts();
-
+      console.log(response.data);
       setPosts(response.data);
 
       // Reset sort

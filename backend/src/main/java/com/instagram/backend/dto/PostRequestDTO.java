@@ -2,7 +2,7 @@ package com.instagram.backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
+import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
@@ -21,4 +21,7 @@ public class PostRequestDTO {
 
     @NotBlank(message = "Hashtags cannot be empty")
     private String hashtags;
+    private boolean scheduled;
+
+    private LocalDateTime scheduledTime;
 }

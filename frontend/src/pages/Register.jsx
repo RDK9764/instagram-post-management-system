@@ -1,10 +1,17 @@
 import { useState } from "react";
 
 import {
+  useNavigate,
+  Link,
+} from "react-router-dom";
+
+import {
   registerUser,
 } from "../services/authService";
 
 function Register() {
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] =
     useState({
@@ -37,6 +44,9 @@ function Register() {
         "User Registered Successfully"
       );
 
+      // Redirect to Login Page
+      navigate("/login");
+
     } catch (error) {
 
       console.error(error);
@@ -57,21 +67,27 @@ function Register() {
           type="text"
           name="username"
           placeholder="Username"
+          value={formData.username}
           onChange={handleChange}
+          required
         />
 
         <input
           type="email"
           name="email"
           placeholder="Email"
+          value={formData.email}
           onChange={handleChange}
+          required
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
+          value={formData.password}
           onChange={handleChange}
+          required
         />
 
         <button type="submit">
@@ -79,6 +95,16 @@ function Register() {
         </button>
 
       </form>
+
+      <p className="auth-link">
+
+        Already have an account?
+
+        <Link to="/login">
+          Login
+        </Link>
+
+      </p>
 
     </div>
   );
