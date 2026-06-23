@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../components/Auth.css";
 
 import {
   loginUser,
@@ -15,7 +16,6 @@ function Login() {
 
   const [loginData, setLoginData] =
     useState({
-
       email: "",
       password: "",
     });
@@ -37,12 +37,15 @@ function Login() {
 
     try {
 
-      // Login Request
       await loginUser(loginData);
+
+      localStorage.setItem(
+        "userEmail",
+        loginData.email
+      );
 
       alert("Login Successful");
 
-      // Redirect Home
       navigate("/");
 
     } catch (error) {
@@ -55,45 +58,86 @@ function Login() {
 
   return (
 
-    <div className="auth-container">
+    <div className="auth-page">
 
-      <h2>Login</h2>
+      <div className="auth-container">
 
-      <form onSubmit={handleSubmit}>
+        {/* Left Side */}
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={loginData.email}
-          onChange={handleChange}
-          required
-        />
+        <div className="auth-left">
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={loginData.password}
-          onChange={handleChange}
-          required
-        />
+          <h1 className="auth-logo">
+            SocialSphere
+          </h1>
 
-        <button type="submit">
-          Login
-        </button>
+          <p className="auth-tagline">
+            Create Posts
+            <br />
+            Schedule Uploads
+            <br />
+            Track Engagement
+            <br />
+            Grow Audience
+          </p>
 
-      </form>
 
-      <p>
 
-        Don't have an account?
+        </div>
 
-        <Link to="/register">
-          Register
-        </Link>
+        {/* Right Side */}
 
-      </p>
+        <div className="auth-right">
+
+          <h2 className="auth-title">
+            Welcome Back
+          </h2>
+
+          <p className="auth-subtitle">
+            Sign in to continue managing your content.
+          </p>
+
+          <form
+            className="auth-form"
+            onSubmit={handleSubmit}
+          >
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={loginData.email}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={loginData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit">
+              Login
+            </button>
+
+          </form>
+
+          <p className="auth-link">
+
+            Don't have an account?{" "}
+
+            <Link to="/register">
+              Register
+            </Link>
+
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
   );

@@ -132,11 +132,11 @@ public class PostService {
         return responseDTO;
     }
 
-    // Get All Published Posts
+    // Get All Published Posts (only current user's posts)
     public List<Post> getAllPosts() {
 
     logger.info(
-            "Fetching published posts"
+            "Fetching own published posts"
     );
 
     User currentUser =
@@ -146,15 +146,20 @@ public class PostService {
             .findByUser(currentUser)
             .stream()
             .filter(post ->
-
                     Boolean.TRUE.equals(
                             post.isPublished()
                     )
             )
+            .sorted((a, b) ->
+                    b.getTimestamp()
+                            .compareTo(
+                                    a.getTimestamp()
+                            )
+            )
             .toList();
 }
 
-    // Search Posts By Hashtag
+    // Search Posts By Hashtag (only current user's posts)
     public List<Post> getPostsByHashtag(
             String tag
     ) {
@@ -172,6 +177,12 @@ public class PostService {
 
                         post.getHashtags()
                                 .contains(tag)
+                )
+                .sorted((a, b) ->
+                        b.getTimestamp()
+                                .compareTo(
+                                        a.getTimestamp()
+                                )
                 )
                 .toList();
     }
@@ -262,23 +273,19 @@ public class PostService {
         return updated;
     }
 
-    // Like Post
-    public Post likePost(Long id) {
-
-        Post post =
-                postRepository.findById(id)
-                        .orElseThrow(() ->
-
-                                new PostNotFoundException(
-                                        "Post not found"
+    // Get Current User's Own Posts (for dashboard stats)
+    public List<Post> getMyPosts() {
+        User currentUser = getCurrentUser();
+        return postRepository
+                .findByUser(currentUser)
+                .stream()
+                .sorted((a, b) ->
+                        b.getTimestamp()
+                                .compareTo(
+                                        a.getTimestamp()
                                 )
-                        );
-
-        post.setLikes(
-                post.getLikes() + 1
-        );
-
-        return postRepository.save(post);
+                )
+                .toList();
     }
 
     // Sort Descending
@@ -294,6 +301,27 @@ public class PostService {
                 .filter(Post::isPublished)
                 .sorted((a, b) ->
 
+                        b.getTimestamp()
+                                .compareTo(
+                                        a.getTimestamp()
+                                )
+                )
+                .toList();
+    }
+
+    // Get Posts By User ID (for profile page)
+    public List<Post> getPostsByUserId(
+            Long userId
+    ) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow();
+
+        return postRepository
+                .findByUser(user)
+                .stream()
+                .filter(Post::isPublished)
+                .sorted((a, b) ->
                         b.getTimestamp()
                                 .compareTo(
                                         a.getTimestamp()

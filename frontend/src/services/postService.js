@@ -69,9 +69,41 @@ export const likePost = async (
   id
 ) => {
 
-  return axios.put(
+  const response = await axios.put(
     `${API_URL}/like/${id}`,
     {},
+    getAuthHeader()
+  );
+  return response.data;
+};
+
+// Unlike Post
+export const unlikePost = async (
+  id
+) => {
+
+  const response = await axios.delete(
+    `${API_URL}/like/${id}`,
+    getAuthHeader()
+  );
+  return response.data;
+};
+
+// Get Liked Posts (Activity)
+export const getLikedPosts = async () => {
+
+  const response = await axios.get(
+    `${API_URL}/liked`,
+    getAuthHeader()
+  );
+  return response.data;
+};
+
+// Get My Posts (for dashboard)
+export const getMyPosts = async () => {
+
+  return axios.get(
+    `${API_URL}/my`,
     getAuthHeader()
   );
 };
@@ -102,6 +134,16 @@ export const getPostsSortedAscending =
 
     return axios.get(
       `${API_URL}/sortedAsc`,
+      getAuthHeader()
+    );
+  };
+
+// Get Posts By User ID
+export const getPostsByUserId =
+  async (userId) => {
+
+    return axios.get(
+      `${API_URL}/user/${userId}`,
       getAuthHeader()
     );
   };

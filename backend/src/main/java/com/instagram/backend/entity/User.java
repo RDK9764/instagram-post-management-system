@@ -21,5 +21,6 @@ public class User {
 
     private String password;
 
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'USER'")
     private String role = "USER";
 }

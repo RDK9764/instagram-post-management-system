@@ -1,5 +1,6 @@
 package com.instagram.backend.security;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,9 @@ import org.springframework.security.core.context
 
 import org.springframework.security.core.userdetails
         .UserDetails;
+
+import org.springframework.security.core.userdetails
+        .UsernameNotFoundException;
 
 import org.springframework.security.web.authentication
         .WebAuthenticationDetailsSource;
@@ -59,8 +63,27 @@ public class JwtFilter
 
             jwt = authHeader.substring(7);
 
-            email =
-                    jwtUtil.extractEmail(jwt);
+            try {
+
+                email =
+                        jwtUtil.extractEmail(jwt);
+
+            } catch (JwtException e) {
+
+                response.setStatus(
+                        HttpServletResponse.SC_UNAUTHORIZED
+                );
+
+                response.setContentType(
+                        "application/json"
+                );
+
+                response.getWriter().write(
+                        "{\"error\":\"Invalid or expired JWT token\"}"
+                );
+
+                return;
+            }
         }
 
         if (email != null &&
@@ -68,29 +91,48 @@ public class JwtFilter
                         .getContext()
                         .getAuthentication() == null) {
 
-            UserDetails userDetails =
-                    userDetailsService
-                            .loadUserByUsername(email);
+            try {
 
-            UsernamePasswordAuthenticationToken
-                    authToken =
-                    new UsernamePasswordAuthenticationToken(
+                UserDetails userDetails =
+                        userDetailsService
+                                .loadUserByUsername(email);
 
-                            userDetails,
+                UsernamePasswordAuthenticationToken
+                        authToken =
+                        new UsernamePasswordAuthenticationToken(
 
-                            null,
+                                userDetails,
 
-                            userDetails.getAuthorities()
-                    );
+                                null,
 
-            authToken.setDetails(
-                    new WebAuthenticationDetailsSource()
-                            .buildDetails(request)
-            );
+                                userDetails.getAuthorities()
+                        );
 
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(authToken);
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
+
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(authToken);
+
+            } catch (UsernameNotFoundException e) {
+
+                response.setStatus(
+                        HttpServletResponse.SC_UNAUTHORIZED
+                );
+
+                response.setContentType(
+                        "application/json"
+                );
+
+                response.getWriter().write(
+                        "{\"error\":\"User not found\"}"
+                );
+
+                return;
+            }
         }
 
         filterChain.doFilter(

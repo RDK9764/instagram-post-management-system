@@ -14,6 +14,12 @@ import Login from "./pages/Login";
 
 import Register from "./pages/Register";
 
+import ProfilePage from
+  "./pages/ProfilePage";
+
+import ActivityPage from
+  "./pages/ActivityPage";
+
 import ProtectedRoute from
   "./components/ProtectedRoute";
 
@@ -50,9 +56,29 @@ ReactDOM.createRoot(
           }
         />
         <Route
+          path="/profile/:userId"
+          element={
+            <ProtectedRoute>
+
+              <ProfilePage />
+
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/activity"
+          element={
+            <ProtectedRoute>
+
+              <ActivityPage />
+
+            </ProtectedRoute>
+          }
+        />
+        <Route
   path="/register"
   element={<Register />}
-/>
+ />
       </Routes>
 
     </BrowserRouter>

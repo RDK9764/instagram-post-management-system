@@ -3,7 +3,10 @@ package com.instagram.backend.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import jakarta.annotation.PostConstruct;
 
 import java.security.Key;
 import java.util.Date;
@@ -11,32 +14,30 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET =
-            "mysecretkeymysecretkeymysecretkey12345";
+    @Value("${jwt.secret}")
+    private String secret;
 
-    private final Key key =
-            Keys.hmacShaKeyFor(SECRET.getBytes());
+    @Value("${jwt.expiration}")
+    private long expiration;
+
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateToken(String email) {
-
+        Date now = new Date();
         return Jwts.builder()
                 .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(
-                                System.currentTimeMillis()
-                                        + 1000 * 60 * 60 * 10
-                        )
-                )
-                .signWith(
-                        key,
-                        SignatureAlgorithm.HS256
-                )
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + expiration))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String extractEmail(String token) {
-
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

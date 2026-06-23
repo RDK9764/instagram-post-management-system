@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import "../components/Auth.css";
 import {
   useNavigate,
   Link,
@@ -15,7 +15,6 @@ function Register() {
 
   const [formData, setFormData] =
     useState({
-
       username: "",
       email: "",
       password: "",
@@ -44,7 +43,6 @@ function Register() {
         "User Registered Successfully"
       );
 
-      // Redirect to Login Page
       navigate("/login");
 
     } catch (error) {
@@ -57,54 +55,95 @@ function Register() {
 
   return (
 
-    <div className="auth-container">
+    <div className="auth-page">
 
-      <h2>Register</h2>
+      <div className="auth-container">
 
-      <form onSubmit={handleSubmit}>
+        {/* Left Side */}
 
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
+        <div className="auth-left">
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+          <h1 className="auth-logo">
+            SocialSphere
+          </h1>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+          <p className="auth-tagline">
+            Create Posts
+            <br />
+            Schedule Uploads
+            <br />
+            Track Engagement
+            <br />
+            Grow Audience
+          </p>
 
-        <button type="submit">
-          Register
-        </button>
 
-      </form>
 
-      <p className="auth-link">
+        </div>
 
-        Already have an account?
+        {/* Right Side */}
 
-        <Link to="/login">
-          Login
-        </Link>
+        <div className="auth-right">
 
-      </p>
+          <h2 className="auth-title">
+            Create Account
+          </h2>
+
+          <p className="auth-subtitle">
+            Join SocialSphere and start managing content smarter.
+          </p>
+
+          <form
+            className="auth-form"
+            onSubmit={handleSubmit}
+          >
+
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit">
+              Create Account
+            </button>
+
+          </form>
+
+          <p className="auth-link">
+
+            Already have an account?{" "}
+
+            <Link to="/login">
+              Login
+            </Link>
+
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
   );

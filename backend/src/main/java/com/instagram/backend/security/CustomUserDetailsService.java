@@ -29,6 +29,12 @@ public class CustomUserDetailsService
                         )
                 );
 
+        String role = user.getRole();
+
+        if (role == null || role.isBlank()) {
+            role = "USER";
+        }
+
         return org.springframework.security.core.userdetails
                 .User.builder()
 
@@ -36,7 +42,7 @@ public class CustomUserDetailsService
 
                 .password(user.getPassword())
 
-                .roles(user.getRole())
+                .roles(role)
 
                 .build();
     }

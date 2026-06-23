@@ -1,0 +1,253 @@
+/* =========================
+CREATE POST CARD
+========================= */
+
+.form-container {
+
+width: 100%;
+
+max-width: 1400px;
+
+margin: 40px auto;
+
+padding: 30px;
+
+background: rgba(255,255,255,0.05);
+
+backdrop-filter: blur(20px);
+
+-webkit-backdrop-filter: blur(20px);
+
+border: 1px solid rgba(255,255,255,0.1);
+
+border-radius: 25px;
+
+box-shadow:
+0 8px 32px rgba(0,0,0,0.3);
+
+transition: all 0.3s ease;
+}
+
+.form-container:hover {
+
+box-shadow:
+0 15px 40px rgba(139,92,246,0.15);
+}
+
+/* =========================
+FORM TITLE
+========================= */
+
+.form-title {
+
+font-size: 2.3rem;
+
+font-weight: 700;
+
+margin-bottom: 25px;
+
+text-align: center;
+
+background: linear-gradient(
+90deg,
+#00f5d4,
+#8b5cf6
+);
+
+-webkit-background-clip: text;
+
+-webkit-text-fill-color: transparent;
+}
+
+/* =========================
+FORM LAYOUT
+========================= */
+
+.form-container form {
+
+display: flex;
+
+flex-direction: column;
+
+gap: 12px;
+}
+
+/* =========================
+INPUT FIELDS
+========================= */
+
+.form-container input[type="text"],
+.form-container input[type="datetime-local"] {
+
+width: 100%;
+
+padding: 15px 18px;
+
+border-radius: 14px;
+
+border: 1px solid rgba(255,255,255,0.1);
+
+background: rgba(255,255,255,0.08);
+
+color: white;
+
+outline: none;
+
+transition: all 0.3s ease;
+
+font-size: 15px;
+}
+
+.form-container input::placeholder {
+
+color: #b8b8b8;
+}
+
+.form-container input:focus {
+
+border-color: #8b5cf6;
+
+background: rgba(255,255,255,0.12);
+
+box-shadow:
+0 0 20px rgba(139,92,246,0.35);
+}
+
+/* =========================
+SCHEDULE CHECKBOX
+========================= */
+
+.schedule-label {
+
+display: flex;
+
+align-items: center;
+
+gap: 10px;
+
+margin: 8px 0;
+
+color: white;
+
+font-weight: 500;
+
+cursor: pointer;
+}
+
+.schedule-label input {
+
+width: 18px;
+
+height: 18px;
+
+margin: 0;
+
+accent-color: #8b5cf6;
+}
+
+/* =========================
+DATE PICKER
+========================= */
+
+.form-container input[type="datetime-local"] {
+
+color-scheme: dark;
+}
+
+/* =========================
+SUBMIT BUTTON
+========================= */
+
+.form-container button {
+
+margin-top: 10px;
+
+padding: 15px;
+
+border: none;
+
+border-radius: 999px;
+
+background: linear-gradient(
+90deg,
+#00f5d4,
+#3b82f6,
+#8b5cf6
+);
+
+color: white;
+
+font-weight: 700;
+
+font-size: 15px;
+
+cursor: pointer;
+
+transition: all 0.3s ease;
+}
+
+.form-container button:hover {
+
+transform: translateY(-3px);
+
+box-shadow:
+0 12px 30px rgba(139,92,246,0.45);
+}
+
+.form-container button:active {
+
+transform: scale(0.98);
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+
+.form-container {
+
+
+max-width: 100%;
+
+
+}
+}
+
+@media (max-width: 768px) {
+
+.form-container {
+
+
+padding: 20px;
+
+margin: 20px auto;
+
+
+}
+
+.form-title {
+
+
+font-size: 1.8rem;
+
+
+}
+
+.form-container input[type="text"],
+.form-container input[type="datetime-local"] {
+
+
+font-size: 14px;
+
+
+}
+
+.form-container button {
+
+
+font-size: 14px;
+
+
+}
+}

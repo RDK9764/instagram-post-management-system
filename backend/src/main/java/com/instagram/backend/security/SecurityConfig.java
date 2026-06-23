@@ -68,9 +68,13 @@ public class SecurityConfig {
 
                         // Public APIs
                         .requestMatchers(
-                        "/api/auth/**",
-                        "/auth/**"
-                        ).permitAll()
+    "/api/auth/**",
+    "/auth/**"
+).permitAll()
+
+                        .requestMatchers(
+    "/api/users/search"
+).permitAll()
 
                         // OPTIONS Requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**")
@@ -79,7 +83,10 @@ public class SecurityConfig {
                         // Protected APIs
                         .requestMatchers("/api/posts/**")
                         .authenticated()
-
+                        .requestMatchers("/api/follow/**")
+.authenticated()
+                        .requestMatchers("/api/users/me")
+.authenticated()
                         .anyRequest()
                         .authenticated()
                 )
